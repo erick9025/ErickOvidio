@@ -1,0 +1,23 @@
+# This is the root .editorconfig file for the project.
+# It helps maintain consistent coding styles across different editors.
+
+# Visual Studio Code automatically reads this file and applies these rules
+# when opening or editing files in the project. No additional extensions or settings are required.
+
+# Indicates that this is the root of the EditorConfig hierarchy.
+root = true
+
+# Global configuration for all file types
+[*]
+# Use UTF-8 as the character encoding for all files
+charset = utf-8
+
+# Enforce LF (Line Feed) as the line ending style
+end_of_line = lf
+
+# Ensure every file ends with a newline
+insert_final_newline = true
+
+# Example of setting indentation (uncomment if needed)
+# indent_style = space
+# indent_size = 2

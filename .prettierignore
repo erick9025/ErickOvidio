@@ -1,0 +1,14 @@
+node_modules/
+dist/
+*.min.js
+
+# GitHub Actions workflows.
+.github/
+
+# Ignorar package-lock.json.
+package-lock.json
+
+# Playwright generated files (traces, screenshots, etc.)
+playwright-report/
+screenshots/
+videos/
