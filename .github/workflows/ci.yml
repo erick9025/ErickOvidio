@@ -1,0 +1,63 @@
+name: CI
+
+# Controls when the workflow will run.
+on:
+  # When pushing to the 'main' branch.
+  push:
+    branches: [ main]
+  # When creating a new pull request to the 'main' branch.
+  pull_request:
+    branches: [ main]
+env:
+  ENV: ${{ vars.ENV }}
+  UI_USERNAME: ${{ secrets.UI_USERNAME }}
+  UI_PASSWORD: ${{ secrets.UI_PASSWORD }}
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+jobs:
+  test:
+    # Set timeouts for workflows (Best Practice).
+    timeout-minutes: 30
+    
+    # The type of runner that the job will run on.
+    runs-on: ubuntu-latest
+    
+    # These permissions are required to generate reports.
+    permissions:
+      contents: write # To push a branch (gh_pages).
+
+    steps:
+      # Cloning you repository to the runner.
+    - uses: actions/checkout@v4   # Necessary to access local actions.
+
+      # Installing the environment
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+
+    - name: Install dependencies
+      # Clean install with exact versions from package-lock.json.
+      run: npm ci
+
+    - name: Install Chromium and Firefox Playwright Browsers
+      run: npx playwright install chromium firefox
+
+    - name: Run Playwright tests for Chrome and Firefox browsers
+      run: npm run test:ui
+
+     # Upload reports.
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 7
+        if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`.
+
+    - name: SonarCloud Scan
+      # Always execute this step, regardless of the success or failure of previous steps.
+      if: always()
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
