@@ -4,6 +4,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "regen" : "npx playwright show-report",
     "format": "prettier --write . | grep -v 'unchanged'",
     "lint": "eslint .",
     "test:ui": "npx playwright test --project=chromium",

@@ -14,7 +14,7 @@ const BASE_URL = envConfig[process.env.ENV as keyof typeof envConfig] || baseEnv
 
 const reporters: any[] = [
   ['list'],
-  ['html'],
+  ['html', { open: 'always' }],
   ['junit', { outputFile: 'results.xml' }],
   ['json', { outputFile: 'results.json' }],
   [
@@ -32,7 +32,7 @@ const reporters: any[] = [
 
 export default defineConfig({
   testDir: './tests',
-  fullyParallel: false,
+  fullyParallel: process.env.CI ? false : true, // Disable parallel tests on CI to avoid resource contention.
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -40,7 +40,7 @@ export default defineConfig({
   retries: 1,
 
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 8,
 
   reporter: reporters,
 
@@ -50,8 +50,8 @@ export default defineConfig({
   },
   use: {
     baseURL: BASE_URL, // Use the dynamically set baseURL.
-    trace: 'on-first-retry', // Record a trace only when retrying a test for the first time.
-    screenshot: 'only-on-failure', // Screenshots only when a test fails.
+    trace: process.env.CI ? 'on-first-retry' : 'on', // Record a trace only when retrying a test for the first time.
+    screenshot: process.env.CI ? 'only-on-failure' : 'on', // Screenshots only when a test fails.
     headless: true,
     viewport: { width: 1920, height: 1080 },
     // Record video with better quality.
