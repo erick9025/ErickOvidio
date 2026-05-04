@@ -1,10 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 import baseEnvUrl from './utils/environmentBaseUrl';
 import type { GitHubActionOptions } from '@estruyf/github-actions-reporter';
-import Config from './utils/config';
 import 'dotenv/config';
 
-const CONFIG = Config.getInstance();
 const envConfig = {
   production: baseEnvUrl.production.home,
   staging: baseEnvUrl.staging.home,
@@ -31,19 +29,6 @@ const reporters: any[] = [
   ['allure-playwright'],
 ];
 
-// Add Slack reporter only if webhook exists
-if (CONFIG.slackWebhook) {
-  reporters.push([
-    './node_modules/playwright-slack-report/dist/src/SlackReporter.js',
-    {
-      slackWebHookUrl: CONFIG.slackWebhook,
-      sendResults: 'always', // 'always', 'on-failure', 'off'
-    },
-  ]);
-  console.log('Slack reporter enabled');
-} else {
-  console.log('Slack reporter disabled (no webhook configured)');
-}
 
 export default defineConfig({
   testDir: './tests',

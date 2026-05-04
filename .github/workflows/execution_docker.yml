@@ -29,5 +29,4 @@ jobs:
             -e ENV=${{ vars.ENV }} \
             -e UI_USERNAME=${{ secrets.UI_USERNAME }} \
             -e UI_PASSWORD=${{ secrets.UI_PASSWORD }} \
-            -e SLACK_WEBHOOK_URL=${{ secrets.SLACK_WEBHOOK_URL }} \
             playwright-tests
