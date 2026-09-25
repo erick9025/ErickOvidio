@@ -1,43 +1,29 @@
 name: Execution
 
-# Controls when the workflow will run.
-on:
-  # Allows you to run this workflow manually from the Actions tab.
-  workflow_dispatch:
-    # Inputs the workflow accepts.
-    # Note: The default values(default: test) only apply when executed manually, they do not take effect when scheduled.
-    inputs:
-      environment:
-        description: 'Enviroment to execute(e.g. "test or staging")'
-        type: choice
-        required: false
-        options:
-        - test
-        - staging
-        - production
-        default: test
-
-      scenarioTag:
-        description: 'Scenario Tag to execute(e.g. "@TC-0001")'
-        type: string
-        required: false
-        default: '@Regression'
-      
-      browser:
-        description: 'Browsers to execute(e.g. "Chrome")'
-        type: choice
-        required: false
-        options: 
-        - chromium
-        - firefox
-        - chromium-firefox
-        default: chromium
-
-  schedule:
-    # Scheduled the execution.
-    # Every day at 22:00 PM (Bolivia GTM-4).
-    # All the cron job in GitHub Actions is in UTC(1:00 AM).
-    - cron: '0 1 * * *'
+# All triggers are disabled. Restore the previous event configuration to re-enable.
+on: []
+# To re-enable, restore the former workflow_dispatch inputs and schedule trigger here.
+# workflow_dispatch:
+#   inputs:
+#     environment:
+#       description: 'Enviroment to execute(e.g. "test or staging")'
+#       type: choice
+#       required: false
+#       options: [test, staging, production]
+#       default: test
+#     scenarioTag:
+#       description: 'Scenario Tag to execute(e.g. "@TC-0001")'
+#       type: string
+#       required: false
+#       default: '@Regression'
+#     browser:
+#       description: 'Browsers to execute(e.g. "Chrome")'
+#       type: choice
+#       required: false
+#       options: [chromium, firefox, chromium-firefox]
+#       default: chromium
+# schedule:
+#   - cron: '0 1 * * *'
 
 env:
   ENV: ${{ inputs.environment || 'test' }}

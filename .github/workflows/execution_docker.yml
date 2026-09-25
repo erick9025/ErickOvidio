@@ -1,9 +1,8 @@
 name: Run Playwright Tests in Docker
 
-# Controls when the workflow will run.
-on:
-  # Allows you to run this workflow manually from the Actions tab.
-  workflow_dispatch:
+# All triggers are disabled. Restore the previous event configuration to re-enable.
+on: []
+# workflow_dispatch:
 
 jobs:
   test:

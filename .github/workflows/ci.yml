@@ -1,13 +1,11 @@
 name: CI
 
-# Controls when the workflow will run.
-on:
-  # When pushing to the 'main' branch.
-  push:
-    branches: [ main]
-  # When creating a new pull request to the 'main' branch.
-  pull_request:
-    branches: [ main]
+# All triggers are disabled. Restore the previous event configuration to re-enable.
+on: []
+# push:
+#   branches: [ main]
+# pull_request:
+#   branches: [ main]
 env:
   ENV: ${{ vars.ENV }}
   UI_USERNAME: ${{ secrets.UI_USERNAME }}
